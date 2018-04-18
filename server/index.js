@@ -3,7 +3,6 @@ const app = express()
 const PORT = 3000
 const volleyball = require('volleyball')
 const bodyParser = require('body-parser')
-const api = require('./api')
 const db = require('./db')
 
 //connection status middleware
@@ -14,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //api routing middleware
-// app.use('/api', require('./api'))
+app.use('/api', require('./api'))
 
 app.use((err, req, res, next) => {
     console.error(err)
@@ -22,8 +21,8 @@ app.use((err, req, res, next) => {
     res.status(err.status || 500).send(err.message || 'Internal server error.')
   }) // Generic error handling.
 
-// db.sync().then(
+db.sync().then(
     app.listen(PORT, function(){
         console.log('listening on 3000') //logging to view server start
     })
-// )
+)
